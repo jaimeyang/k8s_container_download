@@ -91,12 +91,12 @@ def pushImage():
         oldimgName = imageName[0:-4]
         newimgName = registry + "/" + imageName[0:-4]
         print(imageName)
-        comand =  "sudo docker load < " + file
-        subprocess.call(comand)
-        tagcomand = "sudo docker tag " + oldimgName + " " + newimgName
-        subprocess.call(tagcomand)
-        pushcomand = "sudo docker push " + newimgName
-        subprocess.call(pushcomand)
+        comand = cdcomand + " & " + "sudo docker load < " + file
+        subprocess.call(comand,shell=True)
+        tagcomand = cdcomand + " & " + "sudo docker tag " + oldimgName + " " + newimgName
+        subprocess.call(tagcomand,shell=True)
+        pushcomand = cdcomand + " & " + "sudo docker push " + newimgName
+        subprocess.call(pushcomand,shell=True)
 
 def runAnsible():
     command = "ansible-playbook -i " + ansibleConf + " " + " cluster.yml -b -v --private-key=~/.ssh/id_rsa"
