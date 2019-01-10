@@ -63,7 +63,7 @@ def parseYaml(url):
     wlines = ''
     for line in rlines:
         if line.find("registry:") == 0 :
-            line = "registry: " +  + "\"" + registry + "\"" + "\n"
+            line = "registry: " + "\"" + registry + "\"" + "\n"
         elif line.find("downloadurl:") == 0 :
             line = "downloadurl: " + "\"" + url + "\"" + "\n"
         wlines += line
