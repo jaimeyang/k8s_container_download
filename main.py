@@ -30,11 +30,11 @@ def getLocalIp():
 
 
 def downLoadServer():
-    command = "apt-get install apache2"
-    os.system(command)
-    os.mkdir("/var/www/html/package")
-    ln = "ln -s ./package /var/www/html/package"
-    os.system(ln)
+    # command = "apt-get install nginx"
+    # os.system(command)
+    # os.mkdir("/var/www/package")
+    # ln = "ln -s ./package /var/www/package"
+    # os.system(ln)
     addr = "http://" + getLocalIp() + "/package"
     return addr
 
@@ -48,16 +48,25 @@ def registryDocker():
     os.system(comamnd)
 
 
-def parseYaml():
-    version_map = []
-    with open(configPath,"r") as f:
-        data = yaml.load(f)
-        version_map = data.items()
-    version_map["registry"] = registry
-    version_map["kubeadm_download_url"] = kubeadm_download_url
-    version_map["hyperkube_download_url"] = hyperkube_download_url
-    version_map["etcd_download_url"] = etcd_download_url
-    version_map["cni_download_url"] = cni_download_url
+def parseYaml(url):
+    # version_map = []
+    # with open(configPath,"r") as f:
+    #     data = yaml.load(f)
+    #     version_map = data.items()
+    # version_map["registry"] = registry
+    # version_map["kubeadm_download_url"] = kubeadm_download_url
+    # version_map["hyperkube_download_url"] = hyperkube_download_url
+    # version_map["etcd_download_url"] = etcd_download_url
+    # version_map["cni_download_url"] = cni_download_url
+    fr = open(configPath,"r+")
+    rlines = fr.readlines()
+    for line in rlines:
+        if line.find("registry") != 0 :
+            line = "registry: " + registry
+        elif line.find("downloadurl") != 0 :
+            line = "downloadurl: " + url
+    fw = open(configPath,"w+")
+    fw.writelines(rlines)
 
 def pushImage():
     zipPath = "./k8s_offline.zip"
@@ -85,11 +94,7 @@ def runAnsible():
 
 if __name__ == "__main__":
     addr = downLoadServer()
-    kubeadm_download_url = addr + kubeadm_download_url
-    hyperkube_download_url = addr + hyperkube_download_url
-    etcd_download_url = addr + etcd_download_url
-    cni_download_url = addr + cni_download_url
-    parseYaml()
-    pushImage()
-    runAnsible()
+    parseYaml(addr)
+    # pushImage()
+    # runAnsible()
     pass
