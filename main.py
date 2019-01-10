@@ -18,7 +18,7 @@ cni_download_url = ""
 var_lib = ""
 docker_reg = ""
 # temp registry addr
-registry = "test"
+registry = "docker.domain.com"
 # ansible 配置
 ansibleConf = "inventory/netcluster/hosts.ini"
 
@@ -97,6 +97,6 @@ def runAnsible():
 if __name__ == "__main__":
     addr = downLoadServer()
     parseYaml(addr)
-    # pushImage()
+    pushImage()
     # runAnsible()
     pass
