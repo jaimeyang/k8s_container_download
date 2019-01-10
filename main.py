@@ -6,6 +6,7 @@ import os
 import sys
 import socket
 import zipfile
+import subprocess
 # path of download config yaml
 configPath = "./kubespray-2.8.1/roles/download/defaults/main.yml"
 # binary file name
@@ -72,22 +73,20 @@ def parseYaml(url):
 
 def pushImage():
     zipPath = "./k8s_offline.zip"
-    zfile = zipfile.ZipFile(zipPath)
+    # zfile = zipfile.ZipFile(zipPath)
     temp = "./temp"
-    os.mkdir(temp)
-    for names in zfile.namelist():
-        zfile.extract(names,temp)
-    zfile.close()
-    files = os.listdir(temp)
+    # os.mkdir(temp)
+    # for names in zfile.namelist():
+    #     zfile.extract(names,temp)
+    # zfile.close()
+    files = os.listdir(temp + "/k8s_offline")
     for file in files:
         imageName = file.replace("#","/")
         imageName = registry + "/" + imageName
-        comand = "docker load " + file + " > " + " " + imageName
-        p = os.popen(comand)
-        print( p.read() )
-        pushCommand = "docker push " + imageName
-        p1 = os.popen(pushCommand)
-        print( p1.read() )
+        comand = "sudo docker load " + file + " > " + " " + imageName
+        subprocess.call(comand)
+        pushCommand = "sudo docker push " + imageName
+        subprocess.call(comand)
 
 def runAnsible():
     command = "ansible-playbook -i " + ansibleConf + " " + " cluster.yml -b -v --private-key=~/.ssh/id_rsa"
