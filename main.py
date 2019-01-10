@@ -18,7 +18,7 @@ cni_download_url = ""
 var_lib = ""
 docker_reg = ""
 # temp registry addr
-registry = ""
+registry = "test"
 # ansible 配置
 ansibleConf = "inventory/netcluster/hosts.ini"
 
@@ -63,9 +63,9 @@ def parseYaml(url):
     wlines = ''
     for line in rlines:
         if line.find("registry:") == 0 :
-            line = "registry: " + registry
+            line = "registry: " +  + "\"" + registry + "\"" + "\n"
         elif line.find("downloadurl:") == 0 :
-            line = "downloadurl: " + url
+            line = "downloadurl: " + "\"" + url + "\"" + "\n"
         wlines += line
     fw = open(configPath,"w+")
     fw.writelines(wlines)
