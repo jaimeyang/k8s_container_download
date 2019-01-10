@@ -79,13 +79,16 @@ def pushImage():
     # for names in zfile.namelist():
     #     zfile.extract(names,temp)
     # zfile.close()
-    files = os.listdir(temp + "/k8s_offfline")
+    workdir = temp + "/k8s_offfline"
+    files = os.listdir(workdir)
+    cdcomand = "cd " + workdir
+    subprocess.call(cdcomand)
     for file in files:
         imageName = file.replace("#","/")
         oldimgName = imageName[0:-4]
         newimgName = registry + "/" + imageName[0:-4]
         print(imageName)
-        comand = "sudo docker load <" + file
+        comand = "sudo docker load < " + file
         subprocess.call(comand)
         tagcomand = "sudo docker tag " + oldimgName + " " + newimgName
         subprocess.call(tagcomand)
