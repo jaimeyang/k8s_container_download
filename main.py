@@ -84,7 +84,7 @@ def pushImage():
     path = path[0:-7]
     workdir = temp + "/k8s_offfline"
     files = os.listdir(workdir)
-    cdcomand = "cd " + path + workdir
+    cdcomand = "cd " + path + "temp/k8s_offfline"
     subprocess.call(cdcomand)
     for file in files:
         imageName = file.replace("#","/")
