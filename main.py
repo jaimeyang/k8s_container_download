@@ -84,18 +84,18 @@ def pushImage():
     path = path[0:-7]
     workdir = temp + "/k8s_offfline"
     files = os.listdir(workdir)
-    cdcomand = "cd " + path + "temp/k8s_offfline"
-    subprocess.call(cdcomand,shell=True)
     for file in files:
         imageName = file.replace("#","/")
         oldimgName = imageName[0:-4]
         newimgName = registry + "/" + imageName[0:-4]
         print(imageName)
-        comand = cdcomand + " & " + "sudo docker load < " + file
+        file = path + "temp/k8s_offfline/" + file
+        print(file)
+        comand =  "sudo docker load < " + file
         subprocess.call(comand,shell=True)
-        tagcomand = cdcomand + " & " + "sudo docker tag " + oldimgName + " " + newimgName
+        tagcomand = "sudo docker tag " + oldimgName + " " + newimgName
         subprocess.call(tagcomand,shell=True)
-        pushcomand = cdcomand + " & " + "sudo docker push " + newimgName
+        pushcomand = "sudo docker push " + newimgName
         subprocess.call(pushcomand,shell=True)
 
 def runAnsible():
