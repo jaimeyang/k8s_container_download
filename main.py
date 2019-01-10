@@ -82,12 +82,15 @@ def pushImage():
     files = os.listdir(temp + "/k8s_offfline")
     for file in files:
         imageName = file.replace("#","/")
-        imageName = registry + "/" + imageName[0:-4]
+        oldimgName = imageName[0:-4]
+        newimgName = registry + "/" + imageName[0:-4]
         print(imageName)
-        comand = "sudo docker load " + file + " > " + " " + imageName
+        comand = "sudo docker load <" + file
         subprocess.call(comand)
-        pushCommand = "sudo docker push " + imageName
-        subprocess.call(pushCommand)
+        tagcomand = "sudo docker tag " + oldimgName + " " + newimgName
+        subprocess.call(tagcomand)
+        pushcomand = "sudo docker push " + newimgName
+        subprocess.call(pushcomand)
 
 def runAnsible():
     command = "ansible-playbook -i " + ansibleConf + " " + " cluster.yml -b -v --private-key=~/.ssh/id_rsa"
