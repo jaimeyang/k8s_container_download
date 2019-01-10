@@ -62,9 +62,9 @@ def parseYaml(url):
     rlines = fr.readlines()
     wlines = ''
     for line in rlines:
-        if line.find("registry:") != 0 :
+        if line.find("registry:") == 0 :
             line = "registry: " + registry
-        elif line.find("downloadurl:") != 0 :
+        elif line.find("downloadurl:") == 0 :
             line = "downloadurl: " + url
         wlines += line
     fw = open(configPath,"w+")
