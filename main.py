@@ -82,7 +82,8 @@ def pushImage():
     files = os.listdir(temp + "/k8s_offfline")
     for file in files:
         imageName = file.replace("#","/")
-        imageName = registry + "/" + imageName
+        imageName = registry + "/" + imageName[0:-4]
+        print(imageName)
         comand = "sudo docker load " + file + " > " + " " + imageName
         subprocess.call(comand)
         pushCommand = "sudo docker push " + imageName
