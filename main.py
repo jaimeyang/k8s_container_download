@@ -87,7 +87,7 @@ def pushImage():
         comand = "sudo docker load " + file + " > " + " " + imageName
         subprocess.call(comand)
         pushCommand = "sudo docker push " + imageName
-        subprocess.call(comand)
+        subprocess.call(pushCommand)
 
 def runAnsible():
     command = "ansible-playbook -i " + ansibleConf + " " + " cluster.yml -b -v --private-key=~/.ssh/id_rsa"
