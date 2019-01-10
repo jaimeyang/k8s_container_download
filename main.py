@@ -79,7 +79,7 @@ def pushImage():
     # for names in zfile.namelist():
     #     zfile.extract(names,temp)
     # zfile.close()
-    files = os.listdir(temp + "/k8s_offline")
+    files = os.listdir(temp + "/k8s_offfline")
     for file in files:
         imageName = file.replace("#","/")
         imageName = registry + "/" + imageName
