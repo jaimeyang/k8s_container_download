@@ -60,13 +60,15 @@ def parseYaml(url):
     # version_map["cni_download_url"] = cni_download_url
     fr = open(configPath,"r+")
     rlines = fr.readlines()
+    wlines = ''
     for line in rlines:
         if line.find("registry:") != 0 :
             line = "registry: " + registry
         elif line.find("downloadurl:") != 0 :
             line = "downloadurl: " + url
+        wlines += line
     fw = open(configPath,"w+")
-    fw.writelines(rlines)
+    fw.writelines(wlines)
 
 def pushImage():
     zipPath = "./k8s_offline.zip"
