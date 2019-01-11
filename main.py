@@ -73,12 +73,12 @@ def parseYaml(url):
 
 def pushImage():
     zipPath = "./k8s_offline.zip"
-    # zfile = zipfile.ZipFile(zipPath)
+    zfile = zipfile.ZipFile(zipPath)
     temp = "./temp"
-    # os.mkdir(temp)
-    # for names in zfile.namelist():
-    #     zfile.extract(names,temp)
-    # zfile.close()
+    os.mkdir(temp)
+    for names in zfile.namelist():
+        zfile.extract(names,temp)
+    zfile.close()
     path = os.path.abspath("main.py")
     print(path)
     path = path[0:-7]
