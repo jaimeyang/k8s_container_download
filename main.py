@@ -6,6 +6,7 @@ import os
 import sys
 import socket
 import zipfile
+import common
 import subprocess
 # path of download config yaml
 configPath = "./kubespray-2.8.1/roles/download/defaults/main.yml"
@@ -24,19 +25,15 @@ registry = "docker.domain.com"
 ansibleConf = "inventory/netcluster/hosts.ini"
 
 
-def getLocalIp():
-    hostname = socket.gethostname()
-    ip = socket.gethostbyname(hostname)
-    return ip
 
 
 def downLoadServer():
-    # command = "apt-get install nginx"
-    # os.system(command)
-    # os.mkdir("/var/www/package")
-    # ln = "ln -s ./package /var/www/package"
-    # os.system(ln)
-    addr = "http://" + getLocalIp() + "/package"
+    command = "apt-get install nginx"
+    os.system(command)
+    os.mkdir("/var/package")
+    ln = "ln -s ./package /var/package"
+    os.system(ln)
+    addr = "http://" + common.getLocalIp() + "/package"
     return addr
 
 def registryDocker():
@@ -50,15 +47,6 @@ def registryDocker():
 
 
 def parseYaml(url):
-    # version_map = []
-    # with open(configPath,"r") as f:
-    #     data = yaml.load(f)
-    #     version_map = data.items()
-    # version_map["registry"] = registry
-    # version_map["kubeadm_download_url"] = kubeadm_download_url
-    # version_map["hyperkube_download_url"] = hyperkube_download_url
-    # version_map["etcd_download_url"] = etcd_download_url
-    # version_map["cni_download_url"] = cni_download_url
     fr = open(configPath,"r+")
     rlines = fr.readlines()
     wlines = ''
@@ -100,8 +88,7 @@ def pushImage():
 
 def runAnsible():
     command = "ansible-playbook -i " + ansibleConf + " " + " cluster.yml -b -v --private-key=~/.ssh/id_rsa"
-    p = os.popen(command)
-    print(p.read())
+    p = subprocess.call(command,shell=True)
 
 if __name__ == "__main__":
     addr = downLoadServer()
